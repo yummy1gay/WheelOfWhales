@@ -1112,7 +1112,7 @@ class Tapper:
                     logger.error(f"<light-yellow>{self.session_name}</light-yellow> | 🚫 <red>Error fetching businesses</red>: {businesses_response.status_code}, {businesses_response.text}")
                     return False
 
-                businesses_data = businesses_response.json()
+                businesses_data = businesses_response.json().get("businesses", [])
                 all_upgraded = True
 
                 for business in businesses_data:

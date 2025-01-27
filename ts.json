@@ -15,14 +15,5 @@
         "HOME_SCREEN": "verify"
     },
     "codes": {},
-    "missions": {
-        "GATEIO": {
-            "required_tasks": ["GATEIO_X", "GATEIO_APP", "GATEIO_WALLET"],
-            "final_code": "GATEIO_MISSION"
-        },
-        "SWAPCOFEE": {
-            "required_tasks": ["SWAPCOFEE_APP", "SWAPCOFEE_CHANNEL", "SWAPCOFEE_X"],
-            "final_code": "SWAPCOFEE_MISSION"
-        }
-    }
+    "missions": {}
 }
