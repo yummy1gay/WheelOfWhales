@@ -1,29 +1,18 @@
 {
     "tasks": {
         "FOLLOW_WHALE_EN": "verify",
-        "FOLLOW_TON_NEWS": "verify",
-        "FOLLOW_WHALE_SPORTS": "verify",
-        "FOLLOW_WHALE_DISCORD": "verify",
-        "FOLLOW_WHALE_YT": "verify",
-        "FOLLOW_WHALE_MEMES": "verify",
-        "FOLLOW_WHALE_INST": "verify",
-        "FOLLOW_WHALE_TIKTOK": "verify",
         "FOLLOW_WHALE_X": "verify",
-        "FOLLOW_WHALE_SOCIALS": "verify",
-        "FOLLOW_WHALE_KICK": "verify",
-        "SHARE_TO_STORY": "verify",
-        "DOWNLOAD_WALLET": "verify",
         "LIKE_RETWEET": "verify",
+        "FOLLOW_WHALE_TIKTOK": "verify",
+        "FOLLOW_WHALE_INST": "verify",
+        "FOLLOW_WHALE_YT": "verify",
+        "FOLLOW_WHALE_KICK": "verify",
+        "FOLLOW_WHALE_DISCORD": "verify",
+        "DRFT_PARTY": "verify",
         "SPORTS_MANIA": "verify",
-        "CRYPTO_HUB": "verify",
-        "AI_POST": "verify",
-        "STORM_TRADE": "verify",
-        "STORM_BOT": "verify",
-        "CRYP": "verify",
-        "TELEVERSE": "verify",
-        "KINGYRU": "verify",
-        "W_COIN": "verify",
-        "DROPEE": "verify"
+        "DOWNLOAD_WALLET": "verify",
+        "SHARE_TO_STORY": "verify",
+        "HOME_SCREEN": "verify"
     },
     "codes": {},
     "missions": {
@@ -34,10 +23,6 @@
         "SWAPCOFEE": {
             "required_tasks": ["SWAPCOFEE_APP", "SWAPCOFEE_CHANNEL", "SWAPCOFEE_X"],
             "final_code": "SWAPCOFEE_MISSION"
-        },
-        "BAMBOO": {
-            "required_tasks": ["BAMBOO_SITE", "BAMBOO_X", "BAMBOO_TELEGRAM"],
-            "final_code": "BAMBOO_MISSION"
         }
     }
 }

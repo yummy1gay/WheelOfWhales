@@ -36,13 +36,15 @@
 |**AUTO_TOKENFLIP**|Automatic TokenFlip game every half-day to a day (random choice). (default - False)|
 |**AUTO_EMPIRE**|Automatic empire. LevelUP Underground Card Games and Slot Machines, and auto claiming empire rewards (default - True)|
 |**EMPIRE_LEVEL**|Empire level to upgrade, max 4 (default - 1)|
+|**AUTO_RESOLVE_EMPIRE**|Automatically resolves events in the empire (default - False)|
+|**AUTO_RENEW_LICENSE**|Automatically renews licenses when required(default - False)|
 |**USE_RANDOM_DELAY_IN_RUN**|Name saying itself (default - True)|
 |**RANDOM_DELAY_IN_RUN**|Random seconds delay for ^^^ (default is [5, 30])|
 |**NIGHT_MODE**|Pauses operations from 22:00 to 06:00 UTC (default - False)|
 |**RECONNECT_WALLETS**|If you have lost the wallets information, you can reconnect new wallets by setting this parameter to True. (default - False)|
 |**USE_PROXY_FROM_FILE**|Whether to use a proxy from the `bot/config/proxies.txt` file (True / False)|
 |**WEBSOCKETS_WITHOUT_PROXY**|WebSockets are used without a proxy due to this setting, resulting in fewer WebSocket errors.|
-|**FREE_SPINS_NOTIFICATIONS**|Sends notifications about free spins won in the wheels. The notification also provides a link to log into the @whale session account (this feature allows you to access @whale on the account where the spins were won without logging into the account itself) (default - False)|
+|**FREE_SPINS_NOTIFICATIONS**|Sends notifications about free spins won in the wheels. The notification also provides a link to log into the @whale session account (this feature allows you to access @whale on the account where the spins were won without logging into the account itself) (default - False) ***UPD from Jan 27: Free spins have stopped being awarded (?), I haven't seen them since Jan 9.***|
 |**NOTIFICATIONS_BOT_TOKEN**|The `BOT_TOKEN` of the bot that will be used to send notifications. Get it by contacting to [BotFather](https://t.me/botfather)|
 |**ADMIN_TG_USER_ID**|The Telegram `UserID` to whom the bot will send notifications. Get it by contacting to [IDBot](https://t.me/username_to_id_bot)|
 

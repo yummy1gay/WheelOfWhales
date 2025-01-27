@@ -208,7 +208,7 @@ class Tapper:
                 bot=peer,
                 platform='android',
                 from_bot_menu=False,
-                url="https://clicker.crashgame247.io/"
+                url="https://clicker.crashgame247.io/earn"
             ))
 
             auth_url = web_view.url
@@ -399,13 +399,13 @@ class Tapper:
             sleep = random.uniform(40, 90)
             await asyncio.sleep(sleep)
 
-            leaderboard_url = 'https://clicker-api.crashgame247.io/meta/minigame/flappy/leaderboards'
+            leaderboard_url = f'{self.url}/meta/minigame/flappy/leaderboards'
             self.scraper.get(leaderboard_url)
 
             score = random.randint(settings.SCORE[0], settings.SCORE[1])
             payload = {"score": score}
 
-            score_url = 'https://clicker-api.crashgame247.io/meta/minigame/flappy/score'
+            score_url = f'{self.url}/meta/minigame/flappy/score'
             score_response = self.scraper.patch(score_url, json=payload)
 
             if score_response.status_code == 200:
@@ -424,13 +424,13 @@ class Tapper:
             sleep = random.uniform(40, 90)
             await asyncio.sleep(sleep)
 
-            leaderboard_url = 'https://clicker-api.crashgame247.io/meta/minigame/dino/leaderboards'
+            leaderboard_url = f'{self.url}/meta/minigame/dino/leaderboards'
             self.scraper.get(leaderboard_url)
 
             score = random.randint(settings.SCORE[0], settings.SCORE[1])
             payload = {"score": score}
 
-            score_url = 'https://clicker-api.crashgame247.io/meta/minigame/dino/score'
+            score_url = f'{self.url}/meta/minigame/dino/score'
             score_response = self.scraper.patch(score_url, json=payload)
 
             if score_response.status_code == 200:
@@ -447,7 +447,7 @@ class Tapper:
         try:
             logger.info(f"<light-yellow>{self.session_name}</light-yellow> | 🎰 WhaleSpin Started...")
 
-            reach_url = 'https://clicker-api.crashgame247.io/meta/wheel/reach'
+            reach_url = f'{self.url}/meta/wheel/reach'
             reach_response = self.scraper.get(reach_url)
 
             if reach_response.status_code == 200:
@@ -456,7 +456,7 @@ class Tapper:
                 logger.error(f"<light-yellow>{self.session_name}</light-yellow> | 🔴 Failed to reach wheel, status code: {reach_response.status_code}")
 
             await asyncio.sleep(30)
-            ack_url = 'https://clicker-api.crashgame247.io/meta/wheel/ack'
+            ack_url = f'{self.url}/meta/wheel/ack'
             ack_response = self.scraper.put(ack_url)
 
             if ack_response.status_code == 200:
@@ -1181,8 +1181,10 @@ class Tapper:
                 updates = news_data.get("updates", [])
 
                 for update in updates:
-                    if update.get("type") == "CLAIM":
-                        key = update.get("key")
+                    update_type = update.get("type")
+                    key = update.get("key")
+
+                    if update_type == "CLAIM":
                         claim_payload = {"key": key}
                         claim_response = self.scraper.post(f"{self.url}/passive/businesses/claim", json=claim_payload)
 
@@ -1191,6 +1193,25 @@ class Tapper:
                             logger.info(f"<light-yellow>{self.session_name}</light-yellow> | 💰 <green>Claimed</green> <yellow>{income}</yellow> from <blue>{key}</blue>")
                         else:
                             logger.error(f"<light-yellow>{self.session_name}</light-yellow> | 🚫 <red>Error claiming</red> <blue>{key}</blue>: {claim_response.status_code}, {claim_response.text}")
+
+                    elif update_type == "RESOLVE" and settings.AUTO_RESOLVE_EMPIRE:
+                        event = update.get("event")
+                        resolve_payload = {"key": key}
+                        resolve_response = self.scraper.post(f"{self.url}/passive/businesses/resolve", json=resolve_payload)
+
+                        if resolve_response.status_code == 200:
+                            logger.info(f"<light-yellow>{self.session_name}</light-yellow> | 🔧 <green>Resolved</green> event <blue>{event}</blue> for <yellow>{key}</yellow>")
+                        else:
+                            logger.error(f"<light-yellow>{self.session_name}</light-yellow> | 🚫 <red>Error resolving</red> <blue>{key}</blue>: {resolve_response.status_code}, {resolve_response.text}")
+
+                    elif update_type == "RENEW" and update.get("itemType") == "license" and settings.AUTO_RENEW_LICENSE:
+                        renew_payload = {"key": key}
+                        renew_response = self.scraper.post(f"{self.url}/passive/licenses/renew", json=renew_payload)
+
+                        if renew_response.status_code == 200:
+                            logger.info(f"<light-yellow>{self.session_name}</light-yellow> | 📄 <green>Renewed</green> license for <blue>{key}</blue>")
+                        else:
+                            logger.error(f"<light-yellow>{self.session_name}</light-yellow> | 🚫 <red>Error renewing</red> <blue>{key}</blue>: {renew_response.status_code}, {renew_response.text}")
 
                 await asyncio.sleep(random.randint(30, 50) * 60)
 

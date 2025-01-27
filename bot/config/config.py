@@ -27,6 +27,10 @@ class Settings(BaseSettings):
 
     EMPIRE_LEVEL: int = 1
 
+    AUTO_RESOLVE_EMPIRE: bool = False
+
+    AUTO_RENEW_LICENSE: bool = False
+
     USE_RANDOM_DELAY_IN_RUN: bool = True
     RANDOM_DELAY_IN_RUN: list[int] = [5, 30]
 
