@@ -1,7 +1,7 @@
 headers = {
     'Accept': 'application/json, text/plain, */*',
     'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
-    'Accept-Encoding': 'gzip, deflate, br, zstd',
+    'Accept-Encoding': 'gzip',
     'Origin': 'https://wheelofwhales.io',
     'Referer': 'https://wheelofwhales.io/',
     'Sec-Fetch-Dest': 'empty',

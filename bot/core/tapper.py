@@ -309,18 +309,7 @@ class Tapper:
     async def refresh_tokens(self, proxy):
         init_data = await self.get_tg_web_data(proxy)
 
-        params = dict(item.split('=') for item in init_data.split('&'))
-        user_data = json.loads(unquote(params['user']))
-
-        data = {
-            "dataCheckChain": init_data,
-            "initData": {
-                "query_id": params['query_id'],
-                "user": user_data,
-                "auth_date": params['auth_date'],
-                "hash": params['hash']
-            }
-        }
+        data = {"dataCheckChain": init_data}
 
         with self.scraper.post(f"{self.url}/user/sync", json=data) as resp:
             if resp.status_code == 200:
@@ -575,7 +564,7 @@ class Tapper:
                 logger.warning(f"<light-yellow>{self.session_name}</light-yellow> | ⚠️ Could not retrieve all data, going to sleep 30s before the next attempt...")
                 await asyncio.sleep(30)
 
-        ws_url = "wss://clicker-socket.crashgame247.io/connection/websocket"
+        ws_url = "wss://socket.wheelofwhales.io/connection/websocket"
         self.ws_task = asyncio.create_task(self.send_websocket_messages(ws_url, wsToken, wsSubToken, id_for_ws, proxy))
 
         while True:
@@ -903,7 +892,7 @@ class Tapper:
 
             headers = {
                 'Accept': 'application/json, text/plain, */*',
-                'Accept-Encoding': 'gzip, deflate, br, zstd',
+                'Accept-Encoding': 'gzip',
                 'Accept-Language': 'ru-RU,ru;q=0.9',
                 'Origin': 'https://wheelofwhales.io',
                 'Referer': 'https://wheelofwhales.io/',
