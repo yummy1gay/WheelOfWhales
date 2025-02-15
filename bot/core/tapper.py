@@ -241,18 +241,7 @@ class Tapper:
             logger.info(f"<light-yellow>{self.session_name}</light-yellow> | 🚫 init_data is <red>None</red>")
             await asyncio.sleep(999999999999)
 
-        params = dict(item.split('=') for item in init_data.split('&'))
-        user_data = json.loads(unquote(params['user']))
-
-        data = {
-            "dataCheckChain": init_data,
-            "initData": {
-                "query_id": params['query_id'],
-                "user": user_data,
-                "auth_date": params['auth_date'],
-                "hash": params['hash']
-            }
-        }
+        data = {"dataCheckChain": init_data}
 
         try:
             resp = self.scraper.get(f"{self.url}/user/sync", json=data)
