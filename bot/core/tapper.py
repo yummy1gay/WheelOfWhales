@@ -34,7 +34,7 @@ class Tapper:
         self.tg_client = tg_client
         self.user_id = 0
         self.username = None
-        self.url = 'https://clicker-api.crashgame247.io'
+        self.url = 'https://api.wheelofwhales.io'
         self.ws_id = 1
         self.ws_task = None
         self.recoverable = None
@@ -208,7 +208,7 @@ class Tapper:
                 bot=peer,
                 platform='android',
                 from_bot_menu=False,
-                url="https://clicker.crashgame247.io/earn"
+                url="https://wheelofwhales.io"
             ))
 
             auth_url = web_view.url
@@ -227,52 +227,6 @@ class Tapper:
         except Exception as error:
             logger.error(f"<light-yellow>{self.session_name}</light-yellow> | 🚫 Unknown <red>error</red> during Authorization: {error}")
             await asyncio.sleep(3)
-
-    async def get_whale_link(self) -> None:
-        with_tg = True
-
-        if not self.tg_client.is_connected:
-            with_tg = False
-            await self.tg_client.connect()
-            start_command_found = False
-
-            async for message in self.tg_client.get_chat_history("whale"):
-                if (message.text and message.text.startswith("/start")) or (message.caption and message.caption.startswith("/start")):
-                    start_command_found = True
-                    break
-
-            if start_command_found:
-                self.user_data["registered_in_@whale"] = True
-                self.save_user_data()
-            else:
-                await self.tg_client.send_message("whale", f"/start 3c54274715e2b661")
-
-        while True:
-            try:
-                peer = await self.tg_client.resolve_peer('whale')
-                break
-            except FloodWait as fl:
-                fls = fl.value
-
-                logger.warning(f"{self.session_name} | 😞 FloodWait <red>{fl}</red>")
-                logger.info(f"{self.session_name} | 😴 Sleep <light-cyan>{fls}s</light-cyan>")
-
-                await asyncio.sleep(fls + 3)
-
-        web_view = await self.tg_client.invoke(RequestWebView(
-            peer=peer,
-            bot=peer,
-            platform='android',
-            from_bot_menu=False,
-            url="https://api.crashgame247.io/url"
-        ))
-
-        auth_url = web_view.url
-
-        if with_tg is False:
-            await self.tg_client.disconnect()
-
-        return auth_url
 
     async def check_proxy(self, proxy: Proxy) -> None:
         try:
@@ -413,7 +367,7 @@ class Tapper:
                 self.user_data["flappy_score"] = score
                 self.save_user_data()
             else:
-                logger.error(f"<light-yellow>{self.session_name}</light-yellow> | 🔴 <red>Failed</red> to submit FlappyWhale score, status code: {score_response.status_code}")
+                logger.error(f"<light-yellow>{self.session_name}</light-yellow> | 🔴 <red>Failed</red> to submit FlappyWhale score: {score_response.status_code}, {score_response.text}")
 
         except Exception as error:
             logger.error(f"<light-yellow>{self.session_name}</light-yellow> | 😡 <red>Error</red> in play_flappy: {error}")
@@ -438,7 +392,7 @@ class Tapper:
                 self.user_data["dino_score"] = score
                 self.save_user_data()
             else:
-                logger.error(f"<light-yellow>{self.session_name}</light-yellow> | 🔴 <red>Failed</red> to submit DinoWhale score, status code: {score_response.status_code}")
+                logger.error(f"<light-yellow>{self.session_name}</light-yellow> | 🔴 <red>Failed</red> to submit DinoWhale score: {score_response.status_code}, {score_response.text}")
 
         except Exception as error:
             logger.error(f"<light-yellow>{self.session_name}</light-yellow> | 😡 <red>Error</red> in play_dino: {error}")
@@ -496,13 +450,7 @@ class Tapper:
                     await self.save_result("☠️ Death")
                 elif opens_game == "whale_free_spin":
                     logger.info(f"<light-yellow>{self.session_name}</light-yellow> | 🐋 WhaleSpin Result: <blue>5 Free Spins</blue> awarded in @whale")
-                    await self.save_result("🐋 5 Free Spins awarded in @whale")
-                    if settings.FREE_SPINS_NOTIFICATIONS:
-                        link = await self.get_whale_link()
-                        message = (f"<b>👤@{self.username} (ID: </b><code>{self.user_id}</code><b>)</b>\n"
-                                f"<i>🎁 I won free spins at @whale, to get them, click here 👇</i>\n\n"
-                                f"🐳 <b><a href='{link}'>Link to enter @whale for the session {self.session_name}</a></b>")
-                        await self.send_notification(message)
+                    await self.save_result("🐋 5 Free Spins awarded in whale.tg")
                 else:
                     logger.warning(f"<light-yellow>{self.session_name}</light-yellow> | ❓ WhaleSpin Result: Unknown result type '{opens_game}' detected")
 
@@ -968,8 +916,8 @@ class Tapper:
                 'Accept': 'application/json, text/plain, */*',
                 'Accept-Encoding': 'gzip, deflate, br, zstd',
                 'Accept-Language': 'ru-RU,ru;q=0.9',
-                'Origin': 'https://clicker.crashgame247.io',
-                'Referer': 'https://clicker.crashgame247.io/',
+                'Origin': 'https://wheelofwhales.io',
+                'Referer': 'https://wheelofwhales.io/',
                 "Authorization": self.scraper.headers.get('Authorization'),
                 "User-Agent": self.scraper.headers.get('User-Agent')
             }
@@ -1272,9 +1220,6 @@ class Tapper:
             self.save_user_data()
             if referrer:
                 logger.success(f"<light-yellow>{self.session_name}</light-yellow> | 🤗 Referred By: @{referrer}")
-
-        if not self.user_data.get("registered_in_@whale"):
-            await self.get_whale_link()
 
         if settings.NIGHT_MODE:
             current_time = datetime.now(timezone.utc).time()
