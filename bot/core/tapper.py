@@ -244,7 +244,7 @@ class Tapper:
         data = {"dataCheckChain": init_data}
 
         try:
-            resp = self.scraper.get(f"{self.url}/user/sync", json=data)
+            resp = self.scraper.post(f"{self.url}/user/sync", json=data)
             
             resp.raise_for_status()
 
