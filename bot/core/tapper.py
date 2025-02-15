@@ -255,7 +255,7 @@ class Tapper:
         }
 
         try:
-            resp = self.scraper.post(f"{self.url}/user/sync/data", json=data)
+            resp = self.scraper.get(f"{self.url}/user/sync", json=data)
             
             resp.raise_for_status()
 
