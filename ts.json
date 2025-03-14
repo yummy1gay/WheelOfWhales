@@ -14,6 +14,18 @@
         "SHARE_TO_STORY": "verify",
         "HOME_SCREEN": "verify"
     },
+    "subscribe_tasks": {
+        "CRYPTO_HUB": "Cryptex_Library",
+        "AI_POST": "aipost",
+        "ELLINSON": "ellinson",
+        "TON_EVENTS": "tonevents_en",
+        "KINGYRU": "investkingyru",
+        "NOT_ART": "Magicalcryptoway",
+        "STORM_TRADE": "storm_trade_news",
+        "FOLLOW_TON_NEWS": "newston_en",
+        "FOLLOW_SOLANA_NEWS_ENG": "solnewseng",
+        "FOLLOW_SOLANA_NEWS_RU": "solananewsru"
+    },
     "codes": {},
     "missions": {}
 }
