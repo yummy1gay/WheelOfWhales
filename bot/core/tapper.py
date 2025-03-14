@@ -13,6 +13,7 @@ from better_proxy import Proxy
 from urllib.parse import unquote
 
 from faker import Faker
+from twocaptcha import TwoCaptcha
 from pyrogram import Client
 from pyrogram.errors import Unauthorized, UserDeactivated, AuthKeyUnregistered, FloodWait
 from pyrogram.raw.functions.messages import RequestWebView
@@ -328,13 +329,13 @@ class Tapper:
     async def play_flappy(self):
         try:
             logger.info(f"<light-yellow>{self.session_name}</light-yellow> | 🎮 Started <blue>playing</blue> FlappyWhale...")
-            sleep = random.uniform(40, 90)
-            await asyncio.sleep(sleep)
+            score = random.randint(settings.SCORE[0], settings.SCORE[1])
+            sleep_time = score * random.uniform(1, 2)
+            await asyncio.sleep(sleep_time)
 
             leaderboard_url = f'{self.url}/meta/minigame/flappy/leaderboards'
             self.scraper.get(leaderboard_url)
 
-            score = random.randint(settings.SCORE[0], settings.SCORE[1])
             payload = {"score": score}
 
             score_url = f'{self.url}/meta/minigame/flappy/score'
@@ -353,13 +354,13 @@ class Tapper:
     async def play_dino(self):
         try:
             logger.info(f"<light-yellow>{self.session_name}</light-yellow> | 🎮 Started <blue>playing</blue> DinoWhale...")
-            sleep = random.uniform(40, 90)
-            await asyncio.sleep(sleep)
+            score = random.randint(settings.SCORE[0], settings.SCORE[1])
+            sleep_time = score * random.uniform(1, 3)
+            await asyncio.sleep(sleep_time)
 
             leaderboard_url = f'{self.url}/meta/minigame/dino/leaderboards'
             self.scraper.get(leaderboard_url)
 
-            score = random.randint(settings.SCORE[0], settings.SCORE[1])
             payload = {"score": score}
 
             score_url = f'{self.url}/meta/minigame/dino/score'
@@ -375,7 +376,15 @@ class Tapper:
         except Exception as error:
             logger.error(f"<light-yellow>{self.session_name}</light-yellow> | 😡 <red>Error</red> in play_dino: {error}")
 
+    async def gen_turnstile(self):
+        solver = TwoCaptcha(settings.TWO_CAPTCHA_API_TOKEN)
+        solved = solver.turnstile(sitekey="0x4AAAAAAA_hDCKUax2VetBe", url=f"{self.url}/meta/wheel/ack")
+        return solved.get('code')
+
     async def whale_spin(self):
+        if not settings.TWO_CAPTCHA_API_TOKEN:
+            return
+
         try:
             logger.info(f"<light-yellow>{self.session_name}</light-yellow> | 🎰 WhaleSpin Started...")
 
@@ -389,7 +398,8 @@ class Tapper:
 
             await asyncio.sleep(30)
             ack_url = f'{self.url}/meta/wheel/ack'
-            ack_response = self.scraper.put(ack_url)
+            payload = {"token":await self.gen_turnstile()}
+            ack_response = self.scraper.put(ack_url, json=payload)
 
             if ack_response.status_code == 200:
                 content_encoding = ack_response.headers.get('Content-Encoding', '')
@@ -428,7 +438,7 @@ class Tapper:
                     await self.save_result("☠️ Death")
                 elif opens_game == "whale_free_spin":
                     logger.info(f"<light-yellow>{self.session_name}</light-yellow> | 🐋 WhaleSpin Result: <blue>5 Free Spins</blue> awarded in @whale")
-                    await self.save_result("🐋 5 Free Spins awarded in whale.tg")
+                    await self.save_result("🐋 5 Free Spins awarded in whale.io")
                 else:
                     logger.warning(f"<light-yellow>{self.session_name}</light-yellow> | ❓ WhaleSpin Result: Unknown result type '{opens_game}' detected")
 

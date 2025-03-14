@@ -1,3 +1,5 @@
+# github.com/yummy1gay/ton-connect
+
 import hashlib
 import time
 import base64

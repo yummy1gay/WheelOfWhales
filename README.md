@@ -44,6 +44,7 @@
 |**RECONNECT_WALLETS**|If you have lost the wallets information, you can reconnect new wallets by setting this parameter to True. (default - False)|
 |**USE_PROXY_FROM_FILE**|Whether to use a proxy from the `bot/config/proxies.txt` file (True / False)|
 |**WEBSOCKETS_WITHOUT_PROXY**|WebSockets are used without a proxy due to this setting, resulting in fewer WebSocket errors.|
+|**TWO_CAPTCHA_API_TOKEN**|API token for 2captcha.com, required to bypass the captcha that Wheel requires. **This service is paid.**|
 |**FREE_SPINS_NOTIFICATIONS**|Sends notifications about free spins won in the wheels. The notification also provides a link to log into the @whale session account (this feature allows you to access @whale on the account where the spins were won without logging into the account itself) (default - False) ***UPD from Jan 27: Free spins have stopped being awarded (?), I haven't seen them since Jan 9.***|
 |**NOTIFICATIONS_BOT_TOKEN**|The `BOT_TOKEN` of the bot that will be used to send notifications. Get it by contacting to [BotFather](https://t.me/botfather)|
 |**ADMIN_TG_USER_ID**|The Telegram `UserID` to whom the bot will send notifications. Get it by contacting to [IDBot](https://t.me/username_to_id_bot)|
