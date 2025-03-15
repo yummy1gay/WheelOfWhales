@@ -42,7 +42,7 @@ class Settings(BaseSettings):
 
     WEBSOCKETS_WITHOUT_PROXY: bool = False
 
-    TWO_CAPTCHA_API_TOKEN: str
+    TWO_CAPTCHA_API_TOKEN: str = ""
 
     FREE_SPINS_NOTIFICATIONS: bool = False
 
